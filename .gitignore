@@ -1,0 +1,124 @@
+# =====================================================================
+# Grammar scoring speech-to-text pipeline - .gitignore
+# =====================================================================
+
+# ---------------------------------------------------------------------
+# Dataset (about 1.6 GB) - NOT stored in git.
+# Download it from the Google Drive link in README.md and place it in
+# the project root. This covers the audio folders and the label CSVs.
+# ---------------------------------------------------------------------
+/train/
+/test/
+/train.csv
+/test.csv
+/sample_submission.csv
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+
+# ---------------------------------------------------------------------
+# Model weights and caches
+# Whisper downloads its weights to ~/.cache/whisper, but ignore any
+# copies placed inside the project as well.
+# ---------------------------------------------------------------------
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+*.onnx
+*.bin
+*.joblib
+*.pkl
+*.pickle
+.cache/
+models/
+checkpoints/
+
+# ---------------------------------------------------------------------
+# Generated outputs
+# outputs/ IS tracked on purpose: it holds the cached audio features and
+# the Whisper transcripts (about 13 MB), which take ~2.5 hours of GPU time
+# to rebuild. Only ignore scratch / temporary files inside it.
+# ---------------------------------------------------------------------
+outputs/**/*.tmp
+outputs/**/*.partial
+outputs/scratch/
+submission*.csv
+
+# ---------------------------------------------------------------------
+# Jupyter
+# ---------------------------------------------------------------------
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+profile_default/
+ipython_config.py
+.virtual_documents/
+
+# ---------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# ---------------------------------------------------------------------
+# Virtual environments
+# ---------------------------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.conda/
+conda-env/
+
+# ---------------------------------------------------------------------
+# Secrets and credentials
+# ---------------------------------------------------------------------
+.env
+.env.*
+kaggle.json
+*.key
+*.pem
+
+# ---------------------------------------------------------------------
+# Editors and IDEs
+# ---------------------------------------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.claude/
+
+# ---------------------------------------------------------------------
+# Operating system files
+# ---------------------------------------------------------------------
+.DS_Store
+._*
+Thumbs.db
+ehthumbs.db
+desktop.ini
+$RECYCLE.BIN/
+
+# ---------------------------------------------------------------------
+# Logs, temporary files and backups
+# ---------------------------------------------------------------------
+*.log
+*.tmp
+*.temp
+*.bak
+*.backup.*
+tmp/
+temp/
