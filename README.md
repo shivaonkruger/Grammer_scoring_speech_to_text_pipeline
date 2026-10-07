@@ -35,8 +35,7 @@ The work lives in one notebook, [Grammar_recognition_pipeline.ipynb](Grammar_rec
 ```
 shl_assignment/
 ├── Grammar_recognition_pipeline.ipynb   # the whole pipeline (Part 1 + Part 2)
-├── requirements_part1.txt               # pinned deps for Part 1 (data, EDA, audio features)
-├── requirements_part2.txt               # extra deps for Part 2 (Whisper, tokenizer)
+├── requirements.txt                     # every library with exact versions (PyTorch installed separately)
 ├── train.csv                            # 769 rows: filename, label (0.0 to 5.0)   (NOT in git, download)
 ├── test.csv                             # 216 rows: filename, label (always -1)    (NOT in git, download)
 ├── sample_submission.csv                # format example only (see note below)     (NOT in git, download)
@@ -84,10 +83,10 @@ shl_assignment/
 - **Conda** (Miniconda / Anaconda / Miniforge) – recommended, the reference environment is a conda env named `dlenv`
 - **Git**
 - **Jupyter** (JupyterLab, classic Notebook, or VS Code with the Jupyter extension)
-- **PyTorch** – installed separately, matched to your CUDA version (step 3.4)
+- **PyTorch** – installed separately, matched to your CUDA version (step 3.3)
 - `ffmpeg` is **not** required: audio is loaded with `librosa`/`soundfile` and passed to Whisper as an array.
 
-Pinned package versions are in [requirements_part1.txt](requirements_part1.txt) and [requirements_part2.txt](requirements_part2.txt).
+Pinned package versions are in [requirements.txt](requirements.txt).
 
 ---
 
@@ -129,17 +128,9 @@ Then upgrade pip:
 python -m pip install --upgrade pip
 ```
 
-### 3.3 Install Part 1 dependencies
+### 3.3 Install PyTorch first
 
-```bash
-pip install -r requirements_part1.txt
-```
-
-This installs numpy, pandas, scipy, scikit-learn, matplotlib, seaborn, librosa, soundfile, tqdm and librosa's runtime deps.
-
-### 3.4 Install PyTorch (for Part 2)
-
-PyTorch is **not pinned** in the requirements because the right build depends on your GPU and CUDA driver.
+PyTorch is **not in** `requirements.txt` because the right build depends on your GPU and CUDA driver.
 
 1. Check your CUDA driver version (NVIDIA GPUs only):
    ```bash
@@ -164,13 +155,16 @@ Verify:
 python -c "import torch; print(torch.__version__, '| CUDA available:', torch.cuda.is_available())"
 ```
 
-### 3.5 Install Part 2 dependencies
+Install it **before** step 3.4: `openai-whisper` depends on PyTorch, and pip would otherwise pull a default build.
+
+### 3.4 Install everything else
 
 ```bash
-pip install -r requirements_part2.txt
+pip install -r requirements.txt
 ```
 
-This installs `openai-whisper`, `tiktoken` and `more-itertools`.
+This installs every other library with the exact versions of the reference run, including `openai-whisper`, the spaCy
+English model and `errant`.
 The Whisper **`small`** weights (`small.pt`, ~461 MB) are downloaded automatically to `~/.cache/whisper` the first time
 the notebook loads the model. You can pre-download them with:
 
@@ -178,7 +172,7 @@ the notebook loads the model. You can pre-download them with:
 python -c "import whisper; whisper.load_model('small')"
 ```
 
-### 3.6 Register the environment as a Jupyter kernel
+### 3.5 Register the environment as a Jupyter kernel
 
 The notebook expects a kernel called **`dlenv`** (display name *Python (dlenv)*).
 
@@ -189,7 +183,7 @@ python -m ipykernel install --user --name dlenv --display-name "Python (dlenv)"
 
 If you named your environment differently, just pick your own kernel when you open the notebook.
 
-### 3.7 Verify the install
+### 3.6 Verify the install
 
 ```bash
 python -c "import numpy, pandas, sklearn, librosa, soundfile, seaborn, tqdm; print('Part 1 OK')"
@@ -380,11 +374,11 @@ All tables are keyed by **`(split, filename)`**.
 
 | Problem | Fix |
 |---|---|
-| `ModuleNotFoundError` in Step 1.1 | The wrong kernel is selected, or Part 1 requirements are not installed. Select **Python (dlenv)** and re-run `pip install -r requirements_part1.txt`. |
+| `ModuleNotFoundError` in Step 1.1 | The wrong kernel is selected, or Part 1 requirements are not installed. Select **Python (dlenv)** and re-run `pip install -r requirements.txt`. |
 | `FileNotFoundError` for `train.csv` or a `.wav` file | The dataset is not in the project root, or it is nested one folder too deep after unzipping. See [Getting the dataset](#4-getting-the-dataset). |
 | Step 5 final check prints `False` | The cached `audio_features.csv` is from a different dataset. Set `RECOMPUTE_AUDIO_FEATURES = True` and re-run. |
-| `openai-whisper ... NOT INSTALLED` in Step 11.2 | Run `pip install -r requirements_part2.txt`, or set `RUN_WHISPER = False` to use the saved transcripts. |
-| `device cpu` although you have an NVIDIA GPU | You installed the CPU build of PyTorch. Uninstall it (`pip uninstall torch`) and reinstall the CUDA build (step 3.4). |
+| `openai-whisper ... NOT INSTALLED` in Step 11.2 | Run `pip install -r requirements.txt`, or set `RUN_WHISPER = False` to use the saved transcripts. |
+| `device cpu` although you have an NVIDIA GPU | You installed the CPU build of PyTorch. Uninstall it (`pip uninstall torch`) and reinstall the CUDA build (step 3.3). |
 | `CUDA out of memory` | Close other GPU programs, keep `PILOT_MEDIUM = False`, or run with `RUN_WHISPER = False`. |
 | Warning `Failed to launch Triton kernels` | Harmless on Windows; Whisper falls back to a slower path for word timestamps. The notebook hides it. |
 | Whisper run was interrupted | Just re-run the cell. Finished clips are skipped; only missing or failed clips are transcribed. |

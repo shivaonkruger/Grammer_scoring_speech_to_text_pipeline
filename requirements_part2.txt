@@ -1,9 +1,0 @@
-# Part 2 dependencies (on top of requirements_part1.txt), versions installed in conda env "dlenv"
-# Python 3.12.14, Windows 11, NVIDIA RTX 4060 Laptop GPU
-openai-whisper==20250625
-tiktoken==0.14.0
-more-itertools==11.1.0
-scikit-learn==1.9.1
-# PyTorch is NOT pinned here: install the build that matches your CUDA version.
-# Local build: torch==2.14.1+cu132 (CUDA 13.2). Kaggle ships its own torch, which works with openai-whisper.
-# Whisper "small" weights (small.pt, 461 MB) are downloaded once to ~/.cache/whisper on first use.

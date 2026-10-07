@@ -1,0 +1,49 @@
+# Requirements for Grammar_recognition_pipeline.ipynb (exact versions of the reference conda env "dlenv", Python 3.12.14).
+#
+# Install PyTorch FIRST, matched to your GPU, before this file (see README, step 3.3). It is not listed below because the
+# right build depends on your CUDA driver. Reference run: torch==2.14.1+cu132 (CUDA 13.2), NVIDIA RTX 4060 laptop GPU.
+#
+#   pip install -r requirements.txt
+
+# --- Data, plots and audio (Part 1) ---
+numpy==2.5.2
+pandas==3.0.6
+scipy==1.18.1
+matplotlib==3.11.2
+seaborn==0.13.2
+librosa==1.0.0
+soundfile==0.14.0
+soxr==1.1.0
+numba==0.68.0
+llvmlite==0.50.0
+tqdm==4.70.1
+
+# --- Transcription (Part 2) ---
+openai-whisper==20250625
+tiktoken==0.14.0
+more-itertools==11.1.0
+
+# --- Text features and embeddings (Parts 3 and 5) ---
+transformers==5.18.0
+tokenizers==0.23.2
+huggingface_hub==1.33.0
+safetensors==0.8.0
+sentencepiece==0.2.2
+protobuf==7.36.2
+spacy==3.8.16
+en_core_web_sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/en_core_web_sm-3.8.0-py3-none-any.whl
+errant==3.0.2
+rapidfuzz==3.14.6
+
+# --- Models and validation (Parts 4 to 6) ---
+scikit-learn==1.9.1
+joblib==1.6.0
+lightgbm==4.7.0
+ipython==9.17.1
+psutil==7.2.2
+
+# Notes
+# - With the saved results in outputs/ (asr/, features/, audio_features.csv) no model is loaded and no internet is needed.
+#   torch, openai-whisper, errant, en_core_web_sm and the Hugging Face models are only needed to recompute those caches:
+#   prithivida/grammar_error_correcter_v1, gpt2, microsoft/wavlm-base-plus, microsoft/deberta-v3-base, microsoft/wavlm-base-plus-sv.
+# - Set HF_HUB_DISABLE_XET=1 before the first Hugging Face download (downloads stalled on the reference machine without it).

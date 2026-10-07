@@ -1,9 +1,0 @@
-# Part 4 dependencies (on top of requirements_part1.txt to requirements_part3.txt), versions installed in conda env "dlenv"
-# Python 3.12.14, Windows 11. Part 4 runs on the CPU only; torch was not touched.
-scikit-learn==1.9.1
-scipy==1.18.1
-numpy==2.5.2
-pandas==3.0.6
-joblib==1.6.0
-lightgbm==4.7.0
-# If lightgbm is missing, the notebook falls back to scikit-learn's HistGradientBoostingRegressor (Step 54).
