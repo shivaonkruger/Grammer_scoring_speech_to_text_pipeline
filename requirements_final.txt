@@ -1,0 +1,28 @@
+# Final requirements: every library Grammar_recognition_pipeline.ipynb imports, with the exact versions of conda env "dlenv".
+# Python 3.12.14, Windows 11, NVIDIA RTX 4060 laptop GPU (used only to compute the caches). Nothing is installed from the notebook.
+numpy==2.5.2
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+seaborn==0.13.2
+librosa==1.0.0
+soundfile==0.14.0
+tqdm==4.70.1
+joblib==1.6.0
+lightgbm==4.7.0
+ipython==9.17.1
+psutil==7.2.2
+torch==2.14.1+cu132
+openai-whisper==20250625
+transformers==5.18.0
+tokenizers==0.23.2
+sentencepiece==0.2.2
+huggingface_hub==1.33.0
+spacy==3.8.16
+en_core_web_sm==3.8.0
+errant==3.0.2
+# Only needed to recompute the caches: torch (GPU), openai-whisper, errant, en_core_web_sm, and the Hugging Face models
+# prithivida/grammar_error_correcter_v1, gpt2, microsoft/wavlm-base-plus, microsoft/deberta-v3-base, microsoft/wavlm-base-plus-sv.
+# With the saved outputs (asr/, features/, audio_features.csv) present, no model is loaded and no internet is needed.
+# Set HF_HUB_DISABLE_XET=1 before the first Hugging Face download (downloads stalled on this machine without it).
